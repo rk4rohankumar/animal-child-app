@@ -24,7 +24,7 @@ This repository contains the **Animal Child App**, designed as a microfrontend i
 1. Clone the repository:
    ```bash
    git clone https://animal-child-app.vercel.app/
-   cd animals
+   cd animal-child-app
    ```
 
 2. Install dependencies:
