@@ -3,7 +3,7 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 module.exports = {
   webpack: {
     configure: (webpackConfig) => {
-      webpackConfig.output.publicPath = 'http://localhost:3001/';
+      webpackConfig.output.publicPath = 'https://animal-child-app.vercel.app/';
 
       webpackConfig.plugins.push(
         new ModuleFederationPlugin({
