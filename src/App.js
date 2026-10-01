@@ -88,8 +88,8 @@ const AnimalPage = () => {
   if (error) return <ErrorState message={error} onRetry={fetchCats} />;
 
   return (
-    <main className="max-w-6xl mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Cat Breeds</h1>
+    <section aria-labelledby="cat-breeds-heading" className="max-w-6xl mx-auto p-4">
+      <h1 id="cat-breeds-heading" className="text-3xl font-bold text-center mb-6">Cat Breeds</h1>
 
       <div className="mb-6">
         <label htmlFor="cat-search" className="sr-only">
@@ -123,7 +123,7 @@ const AnimalPage = () => {
           </div>
         )}
       </section>
-    </main>
+    </section>
   );
 };
 
