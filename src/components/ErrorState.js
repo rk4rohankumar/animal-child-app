@@ -6,12 +6,12 @@ const ErrorState = ({ message, onRetry }) => (
     role="alert"
     aria-live="assertive"
   >
-    <p className="text-red-500 text-lg mb-4">{message}</p>
+    <p className="text-red-700 text-lg mb-4">{message}</p>
     {onRetry && (
       <button
         type="button"
         onClick={onRetry}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
       >
         Retry
       </button>

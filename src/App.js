@@ -8,7 +8,8 @@ import ErrorState from "./components/ErrorState";
 import EmptyState from "./components/EmptyState";
 import CatCard from "./components/CatCard";
 
-const API_URL = "https://api.thecatapi.com/v1/images/search?limit=30&has_breeds=1";
+const API_URL =
+  "https://api.thecatapi.com/v1/images/search?limit=30&has_breeds=1&size=med";
 
 const useDebounce = (value, delay = 300) => {
   const [debounced, setDebounced] = useState(value);

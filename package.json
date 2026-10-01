@@ -2,6 +2,7 @@
   "name": "animals",
   "version": "0.1.0",
   "private": true,
+  "description": "Cat breeds gallery exposed as the AnimalApp webpack Module Federation remote for the micro-frontend host; also runs standalone.",
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "autoprefixer": "^10.4.20",

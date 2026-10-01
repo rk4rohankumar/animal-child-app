@@ -1,101 +1,33 @@
-# Animal Child App Microfrontend
+# Animals · Micro Frontend remote
 
-This repository contains the **Animal Child App**, designed as a microfrontend in a larger application architecture. It is built using **React**, **Tailwind CSS**, and the **Module Federation Plugin** for Webpack, and configured with **CRACO** for custom configuration.
+Cat breeds gallery (photo, breed name, temperament, Wikipedia link) with a debounced search. Built with CRA 5 + CRACO 7, React 19, Tailwind 3, axios and framer-motion, and exposed as a webpack Module Federation remote for [micro-frontend-host](https://github.com/rk4rohankumar/micro-frontend-host). It also runs standalone.
 
-## Features
-- Developed as a microfrontend for seamless integration with a parent application.
-- Built with modern technologies like React and Tailwind CSS.
-- Module Federation for dynamic sharing of code between apps.
-- Responsive and optimized for performance.
+## Data
 
-## Tech Stack
-- **React**: Frontend library for building user interfaces.
-- **Tailwind CSS**: Utility-first CSS framework for styling.
-- **CRACO (Create React App Configuration Override)**: For extending CRA configuration.
-- **Webpack Module Federation**: For microfrontend architecture.
+[TheCatAPI](https://thecatapi.com/) — `GET https://api.thecatapi.com/v1/images/search?limit=30&has_breeds=1&size=med`.
 
-## Project Setup
+Put your key in `.env` (see `.env.example`):
 
-### Prerequisites
-- Node.js (>= 14.x)
-- npm or yarn package manager
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://animal-child-app.vercel.app/
-   cd animal-child-app
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-### Running the Application
-To start the development server:
-```bash
-npm start
-# or
-yarn start
 ```
-The app will be accessible at [http://localhost:3000](http://localhost:3000).
-
-### Building for Production
-To create a production build:
-```bash
-npm run build
-# or
-yarn build
+REACT_APP_CAT_API_KEY=your_thecatapi_key_here
 ```
 
-### Configuration Details
-#### CRACO and Webpack
-The project uses **CRACO** to customize the Webpack configuration for supporting Module Federation:
-- **publicPath**: Set to `https://animal-child-app.vercel.app/` for deployment.
-- **Module Federation Plugin**:
-  - Name: `AnimalApp`
-  - Remote Entry: `remoteEntry.js`
-  - Exposes: `./AnimalApp` from `./src/App`
-  - Shared Dependencies: `react`, `react-dom`, and `tailwindcss`
-
-### Deployment
-The app is deployed at: [https://animal-child-app.vercel.app/](https://animal-child-app.vercel.app/)
-
-## Microfrontend Integration
-To consume this microfrontend in a parent application, include the following in your Module Federation configuration:
-```javascript
-new ModuleFederationPlugin({
-  remotes: {
-    AnimalApp: 'AnimalApp@https://animal-child-app.vercel.app/remoteEntry.js',
-  },
-})
-```
+Without a key the API still answers, but with a smaller result cap.
 
 ## Scripts
-- `start`: Starts the development server.
-- `build`: Builds the app for production.
-- `test`: Runs tests.
-- `eject`: Ejects the CRA configuration.
 
-## Folder Structure
-```
-animals/
-├── src/
-│   ├── components/   # Reusable components
-│   ├── App.js         # Main App component
-│   └── index.js       # Entry point
-├── public/            # Static files
-├── craco.config.js    # Custom configuration for Webpack
-└── package.json       # Project metadata and dependencies
+```bash
+npm install
+npm start        # dev server on http://localhost:3000
+npm run build    # production build in build/ (includes remoteEntry.js)
 ```
 
-## Contribution Guidelines
-Feel free to fork the repository and submit pull requests for any enhancements or bug fixes.
+## How the host consumes it
 
-## License
-This project is licensed under the [MIT License](LICENSE).
+- Scope: `AnimalApp`
+- Exposed module: `./AnimalApp` → `src/App`
+- Remote entry: `https://animal-child-app.vercel.app/remoteEntry.js`
 
+The host injects `remoteEntry.js` at runtime, calls `container.init(shareScope)` and then `container.get('./AnimalApp')`. In production `output.publicPath` is `'auto'`, so chunks resolve relative to wherever `remoteEntry.js` is embedded.
 
+`react`, `react-dom`, `framer-motion` and `axios` are shared as non-eager singletons (`requiredVersion` from `package.json`), so the host's copies are used when present. Standalone rendering goes through `src/index.js` → `import('./bootstrap')` so the shared modules are negotiated before React renders.
