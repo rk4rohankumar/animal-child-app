@@ -31,14 +31,18 @@ const CatCard = ({ cat, reduceMotion }) => {
       className="bg-white rounded-lg shadow-md overflow-hidden"
       aria-label={`Cat breed: ${name}`}
     >
-      <img
-        src={cat.url}
-        alt={`A ${name} cat`}
-        loading="lazy"
-        decoding="async"
-        onError={handleImgError}
-        className="w-full h-56 object-cover"
-      />
+      <div className="aspect-[4/3] w-full bg-gray-100">
+        <img
+          src={cat.url}
+          alt={`A ${name} cat`}
+          width={cat.width || 400}
+          height={cat.height || 300}
+          loading="lazy"
+          decoding="async"
+          onError={handleImgError}
+          className="h-full w-full object-cover"
+        />
+      </div>
       <div className="p-4">
         <h2 className="text-xl font-semibold">{name}</h2>
         {temperament && (
@@ -49,7 +53,7 @@ const CatCard = ({ cat, reduceMotion }) => {
             href={wiki}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-500 text-sm hover:underline mt-2 block focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="text-blue-700 text-sm hover:underline mt-2 block focus:outline-none focus:ring-2 focus:ring-blue-400"
             aria-label={`Learn more about ${name} on Wikipedia`}
           >
             Learn more
