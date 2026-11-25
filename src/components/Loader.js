@@ -8,14 +8,14 @@ const Loader = () => (
     aria-live="polite"
   >
     <motion.div
-      className="w-16 h-16 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"
+      className="w-16 h-16 border-4 border-t-emerald-600 border-slate-200 rounded-full animate-spin"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, repeat: Infinity }}
       aria-hidden="true"
     />
-    <p className="text-lg font-semibold text-gray-700 mt-4">
-      Fetching cute cats...
+    <p className="text-lg font-semibold text-slate-600 mt-4">
+      Fetching breeds…
     </p>
   </div>
 );
