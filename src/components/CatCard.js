@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 const FALLBACK_IMG =
@@ -25,6 +25,15 @@ const CatCard = ({ cat, reduceMotion }) => {
         transition: { duration: 0.35 },
       };
 
+  const [favourite, setFavourite] = useState(false);
+  // Publish on the window event bus; the host shell listens without importing this app.
+  const toggleFavourite = () => {
+    const on = !favourite;
+    setFavourite(on);
+    window.dispatchEvent(
+      new CustomEvent("mfe:event", { detail: { app: "animals", type: "favourite", id: cat.id, name, on } })
+    );
+  };
   const origin = breed?.origin;
   const life = breed?.life_span;
   const traits = (temperament || "").split(",").map((t) => t.trim()).filter(Boolean).slice(0, 3);
@@ -56,6 +65,15 @@ const CatCard = ({ cat, reduceMotion }) => {
       <div className="p-4 pt-1">
         <div className="flex items-baseline justify-between gap-3">
           <h2 className="text-lg font-semibold text-slate-900">{name}</h2>
+          <button
+            type="button"
+            onClick={toggleFavourite}
+            aria-pressed={favourite}
+            aria-label={`${favourite ? "Remove" : "Add"} ${name} ${favourite ? "from" : "to"} favourites`}
+            className={`ml-auto rounded-full px-2 text-lg leading-none focus:outline-none focus:ring-2 focus:ring-emerald-500 ${favourite ? "text-rose-500" : "text-slate-400 hover:text-rose-400"}`}
+          >
+            {favourite ? "♥" : "♡"}
+          </button>
           {life && <span className="shrink-0 text-xs text-slate-500">{life} yrs</span>}
         </div>
         {traits.length > 0 && (
