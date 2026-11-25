@@ -25,13 +25,17 @@ const CatCard = ({ cat, reduceMotion }) => {
         transition: { duration: 0.35 },
       };
 
+  const origin = breed?.origin;
+  const life = breed?.life_span;
+  const traits = (temperament || "").split(",").map((t) => t.trim()).filter(Boolean).slice(0, 3);
+
   return (
     <Wrapper
       {...motionProps}
-      className="bg-white rounded-lg shadow-md overflow-hidden"
+      className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
       aria-label={`Cat breed: ${name}`}
     >
-      <div className="aspect-[4/3] w-full bg-gray-100">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
         <img
           src={cat.url}
           alt={`A ${name} cat`}
@@ -40,23 +44,38 @@ const CatCard = ({ cat, reduceMotion }) => {
           loading="lazy"
           decoding="async"
           onError={handleImgError}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-white to-transparent" />
+        {origin && (
+          <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-slate-800 backdrop-blur">
+            {origin}
+          </span>
+        )}
       </div>
-      <div className="p-4">
-        <h2 className="text-xl font-semibold">{name}</h2>
-        {temperament && (
-          <div className="text-gray-600 text-sm">{temperament}</div>
+      <div className="p-4 pt-1">
+        <div className="flex items-baseline justify-between gap-3">
+          <h2 className="text-lg font-semibold text-slate-900">{name}</h2>
+          {life && <span className="shrink-0 text-xs text-slate-500">{life} yrs</span>}
+        </div>
+        {traits.length > 0 && (
+          <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="Temperament">
+            {traits.map((t) => (
+              <li key={t} className="rounded-md border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-xs text-emerald-800">
+                {t}
+              </li>
+            ))}
+          </ul>
         )}
         {wiki && (
           <a
             href={wiki}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-700 text-sm hover:underline mt-2 block focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="mt-3 inline-block text-sm text-sky-700 hover:underline focus:outline-none focus:ring-2 focus:ring-sky-400"
             aria-label={`Learn more about ${name} on Wikipedia`}
           >
-            Learn more
+            Learn more ↗
           </a>
         )}
       </div>
